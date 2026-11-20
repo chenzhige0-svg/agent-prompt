@@ -1,0 +1,9 @@
+# 本机共享资源，不纳入本仓库
+skills/
+skill-libraries/
+.skill-lock.json
+.skill-lock.json.bak
+
+# 合并前的备份
+*.bak
+*.bak-*
