@@ -65,13 +65,23 @@ ln -sfn /mnt/c/Users/<WindowsUser>/.agents/AGENTS.md ~/.config/opencode/AGENTS.m
 
 ## 更新
 
-只修改本仓库的 `AGENTS.md`，然后同步到 Windows 本机：
+本机把 `%USERPROFILE%\.agents` 直接作为仓库克隆目录，所以它同时是唯一真源和 git 工作区。拉取：
 
 ```powershell
-Copy-Item .\AGENTS.md "$env:USERPROFILE\.agents\AGENTS.md" -Force
+git -C "$env:USERPROFILE\.agents" pull --ff-only
 ```
 
-WSL 不需要再次复制，符号链接会直接读到 Windows 侧的新内容。
+改完直接提交推送：
+
+```powershell
+git -C "$env:USERPROFILE\.agents" add -A
+git -C "$env:USERPROFILE\.agents" commit -m "..."
+git -C "$env:USERPROFILE\.agents" push
+```
+
+四个入口都是链接，不需要复制。WSL 也不需要，符号链接会直接读到 Windows 侧的新内容。
+
+如果某台机器只想要文件、不想放仓库，就按上面的“首次安装”复制一次，之后手动同步。
 
 > 如果用“先删除再重命名”的方式保存文件，链接可能断开。检查：
 > `Get-Item "$env:USERPROFILE\.config\opencode\AGENTS.md" | Select-Object LinkType, Target`
