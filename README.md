@@ -16,8 +16,8 @@ OpenCode 与 Codex 共用的全局系统提示词。Windows 与 WSL 读取同一
 
 | 环境 | 工具 | 路径 | 方式 |
 | --- | --- | --- | --- |
-| Windows | OpenCode | `%USERPROFILE%\.config\opencode\AGENTS.md` | 符号链接 |
-| Windows | Codex | `%USERPROFILE%\.codex\AGENTS.md` | 符号链接 |
+| Windows | OpenCode | `%USERPROFILE%\.config\opencode\AGENTS.md` | 硬链接 |
+| Windows | Codex | `%USERPROFILE%\.codex\AGENTS.md` | 硬链接 |
 | WSL | OpenCode | `~/.config/opencode/AGENTS.md` | 符号链接 |
 | WSL | Codex | `~/.codex/AGENTS.md` | 符号链接 |
 
@@ -26,7 +26,7 @@ Windows 与 WSL 的所有入口最终指向：
 - Windows：`%USERPROFILE%\.agents\AGENTS.md`
 - WSL：`/mnt/c/Users/<WindowsUser>/.agents/AGENTS.md`
 
-本机实际用户名为 `lenovo`，即 `C:\Users\lenovo\.agents\AGENTS.md`。
+本机实际用户名为 `ZhiGe`，即 `C:\Users\ZhiGe\.agents\AGENTS.md`。
 
 ## 首次安装
 
@@ -37,7 +37,7 @@ New-Item -ItemType Directory -Force "$env:USERPROFILE\.agents" | Out-Null
 Copy-Item .\AGENTS.md "$env:USERPROFILE\.agents\AGENTS.md" -Force
 ```
 
-创建 Windows 符号链接（Developer Mode 打开时不需要管理员权限；没有权限就用 `-ItemType HardLink`）：
+创建 Windows 硬链接（不需要管理员权限）：
 
 ```powershell
 New-Item -ItemType Directory -Force "$env:USERPROFILE\.config\opencode" | Out-Null
@@ -46,11 +46,11 @@ New-Item -ItemType Directory -Force "$env:USERPROFILE\.codex" | Out-Null
 Remove-Item "$env:USERPROFILE\.config\opencode\AGENTS.md" -Force -ErrorAction SilentlyContinue
 Remove-Item "$env:USERPROFILE\.codex\AGENTS.md" -Force -ErrorAction SilentlyContinue
 
-New-Item -ItemType SymbolicLink `
+New-Item -ItemType HardLink `
   -Path "$env:USERPROFILE\.config\opencode\AGENTS.md" `
   -Target "$env:USERPROFILE\.agents\AGENTS.md" | Out-Null
 
-New-Item -ItemType SymbolicLink `
+New-Item -ItemType HardLink `
   -Path "$env:USERPROFILE\.codex\AGENTS.md" `
   -Target "$env:USERPROFILE\.agents\AGENTS.md" | Out-Null
 ```

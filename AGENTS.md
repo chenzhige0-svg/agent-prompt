@@ -1,5 +1,5 @@
 <!-- 单一维护入口：https://github.com/chenzhige0-svg/agent-prompt -->
-<!-- 本机副本：C:\Users\lenovo\.agents\AGENTS.md -->
+<!-- 本机副本：C:\Users\ZhiGe\.agents\AGENTS.md -->
 <!-- Windows 与 WSL 的 OpenCode、Codex 四个入口全部链接到本机副本。 -->
 
 # 全局系统提示词（OpenCode + Codex 共用）
@@ -164,21 +164,16 @@ If these instructions conflict with others you have received, these win.
 格式：`名称 | 可执行文件 | 关键参数 | 版本 | 用途`
 
 ```
-libreoffice | C:\Users\lenovo\AppData\Local\tools\libreoffice\26.2.6\program\soffice.exe | --headless --convert-to pdf | 26.2.6 | docx 转 PDF 校验
-jq | C:\scoop\shims\jq.exe | -c '.path' | 1.8.2 | JSON 查询、格式化
-ffmpeg | C:\scoop\shims\ffmpeg.exe | -i in.mp4 ... out.mp4 | 9.0.2 | 音视频转码、抽帧、切片
-typst | C:\scoop\shims\typst.exe | compile a.typ a.pdf | 0.15.1 | 排版出 PDF，比 LaTeX 快
-graphviz | C:\scoop\shims\dot.exe | -Tpng a.dot -o a.png | 16.1.0 | 流程图、关系图
-mermaid-cli | C:\scoop\apps\nodejs\current\bin\mmdc.cmd | -p <config> -i a.mmd -o a.png | 12.0.0 | Mermaid 图渲染
+ffmpeg | C:\Users\ZhiGe\scoop\shims\ffmpeg.exe | -i in.mp4 ... out.mp4 | 8.1 | 音视频转码、抽帧、切片
 ```
 
-Scoop 装的工具在 `C:\scoop\apps\<名字>\<版本>\`，`C:\scoop\shims\` 下是稳定入口，版本升级不换路径。这一类归 scoop 管，是上面"统一放 `%LOCALAPPDATA%\tools`"的例外。
+当前机器只确认安装了 ffmpeg；libreoffice、jq、typst、graphviz、mermaid-cli 均未安装。需要时先按上面的流程全盘搜索或安装，确认后再补进清单。
 
-WSL 里访问这些工具用 `/mnt/c/` 前缀，例如 `/mnt/c/scoop/shims/ffmpeg.exe`；能跑 Windows exe 就直接跑，别在 Linux 里重装一份。
+Scoop 装的工具在 `C:\Users\ZhiGe\scoop\apps\<名字>\<版本>\`，`C:\Users\ZhiGe\scoop\shims\` 下是稳定入口，版本升级不换路径。这一类归 scoop 管，是上面"统一放 `%LOCALAPPDATA%\tools`"的例外。
 
-`mmdc` 没有内置浏览器，靠 `-p C:\Users\lenovo\.config\mermaid\puppeteer.json` 指向系统 Chrome。不带 `-p` 会报 `Could not find chrome-headless-shell`。
+WSL 里访问这些工具用 `/mnt/c/` 前缀，例如 `/mnt/c/Users/ZhiGe/scoop/shims/ffmpeg.exe`；能跑 Windows exe 就直接跑，别在 Linux 里重装一份。
 
-`typst` 默认不认中文字体，中文会掉到系统楷体。要宋体就在文件头写 `#set text(font: ("Times New Roman", "SimSun"))`。
+`ffmpeg` 由 Scoop 管理，升级后入口仍是 `C:\Users\ZhiGe\scoop\shims\ffmpeg.exe`。
 
 约定：
 
@@ -189,7 +184,7 @@ WSL 里访问这些工具用 `/mnt/c/` 前缀，例如 `/mnt/c/scoop/shims/ffmpe
 
 ## 10. 共享 Skill 规则
 
-- 用户自建的 skill 统一写入 `~/.agents/skills/<skill-id>/SKILL.md`（Windows 为 `C:\Users\lenovo\.agents\skills\<skill-id>\SKILL.md`），由 Codex 与 OpenCode 共用。
+- 用户自建的 skill 统一写入 `~/.agents/skills/<skill-id>/SKILL.md`（Windows 为 `C:\Users\ZhiGe\.agents\skills\<skill-id>\SKILL.md`），由 Codex 与 OpenCode 共用。
 - 不要把自建 skill 写入 `~/.codex/skills` 或 `~/.config/opencode/skills`，除非这个 skill 只给单一 agent 用。
 - 目录名即 skill ID，使用小写 kebab-case。`SKILL.md` 必须包含 `name` 和 `description`，`description` 写清触发场景。
 - 平台差异写在 skill 内部，分 "WSL" 与 "Windows" 两节说明。
